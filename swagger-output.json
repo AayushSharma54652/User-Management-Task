@@ -1,275 +1,258 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
-    "description": "Description",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "title": "User and Admin Management API",
+    "description": "API documentation for user and admin management."
   },
   "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "basePath": "/api/v1",
+  "schemes": ["http"],
   "paths": {
-    "/admin/analytics": {
-      "get": {
-        "description": "",
+    "/users/{id}/upload-profile-image": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload profile image",
         "parameters": [
           {
-            "name": "startDate",
-            "in": "query",
-            "type": "string"
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
           },
           {
-            "name": "endDate",
-            "in": "query",
-            "type": "string"
+            "name": "profileImage",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Profile image file"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Profile image uploaded successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/users/{id}/upload-kyc-document": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload KYC document",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "kycDocument",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "KYC document file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KYC document uploaded successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/users/{id}/update-qualification": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update qualification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "qualification",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "qualification": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Qualification updated successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/admin/analytics": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Get user analytics",
+        "responses": {
+          "200": {
+            "description": "Analytics data fetched successfully"
+          },
+          "400": {
+            "description": "Validation error"
           }
         }
       }
     },
     "/admin/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Admin"],
+        "summary": "Get admin by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Admin ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Admin data fetched successfully"
+          },
+          "404": {
+            "description": "Admin not found"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Admin"],
+        "summary": "Delete admin",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Admin ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Admin deleted successfully"
+          },
+          "404": {
+            "description": "Admin not found"
           }
         }
       }
     },
     "/admin/create": {
       "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/admin/create-user": {
-      "post": {
-        "description": "",
+        "tags": ["Admin"],
+        "summary": "Create admin",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
-                  "example": "any"
-                }
+                "email": { "type": "string" },
+                "password": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/admin/update/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/admin/edit/{id}": {
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/admin/status/{id}": {
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+          "201": {
+            "description": "Admin created successfully"
           },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "active": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "400": {
+            "description": "Validation error"
           }
         }
       }
     },
     "/admin/toogleBlock/{id}": {
       "patch": {
-        "description": "",
+        "tags": ["Admin"],
+        "summary": "Toggle user block status",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/user/{id}/upload-profile-image": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/user/{id}/upload-kyc-document": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/user/{id}/update-qualification": {
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
           },
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "qualification": {
-                  "example": "any"
-                }
+                "blocked": { "type": "boolean" }
               }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User block status toggled successfully"
           },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "400": {
+            "description": "Validation error"
           }
         }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "active": { "type": "boolean" },
+        "role": { "type": "string" },
+        "blocked": { "type": "boolean" },
+        "kycCompleted": { "type": "boolean" },
+        "onboardingCompleted": { "type": "boolean" },
+        "profileImage": { "type": "string" },
+        "qualification": { "type": "string" },
+        "kycDocument": { "type": "string" }
+      }
+    },
+    "Admin": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "role": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdUsers": { "type": "number" },
+        "accessToken": { "type": "string" },
+        "refreshToken": { "type": "string" }
       }
     }
   }
