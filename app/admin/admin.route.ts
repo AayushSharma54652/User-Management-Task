@@ -46,7 +46,7 @@ router
   )
 
   .patch(
-    "/block-user/:id",
+    "/toogleBlock/:id",
     adminValidator.toggleUserBlockStatus, // Validation for block/unblock request
     catchError,
     adminController.toggleUserBlockStatus // Controller to handle the logic

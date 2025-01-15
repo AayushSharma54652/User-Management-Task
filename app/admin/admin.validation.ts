@@ -1,11 +1,6 @@
 import { param, body } from "express-validator";
 
 export const createAdmin = [
-  body("name")
-    .notEmpty()
-    .withMessage("Name is required")
-    .isString()
-    .withMessage("Name must be a string"),
   body("email")
     .notEmpty()
     .withMessage("Email is required")
