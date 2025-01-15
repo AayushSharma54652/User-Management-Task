@@ -31,6 +31,7 @@ export interface UpdateUserDTO {
   blocked?: boolean;
   kycCompleted?: boolean;
   onboardingCompleted?: boolean;
+  profileImage?: string; 
 }
 
 export interface LoginUserDTO {
